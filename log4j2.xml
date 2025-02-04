@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8"/>
+            <ThresholdFilter level="INFO" />
+        </Console>
+        <Console name="BIGERRORS" target="SYSTEM_ERR">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8"/>
+            <ThresholdFilter level="FATAL" />
+        </Console>
+        <!-- Warning: this appender is used by some tests to validate log output. Do not change the layout, parameters  or format.  -->
+        <RollingFile name="File" append="false" filePattern="build/log.log" bufferedIO="false">
+            <PatternLayout pattern="%d{ABSOLUTE_NANOS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8" />
+            <OnStartupTriggeringPolicy/>
+        </RollingFile>
+        <File name="FileDebug" append="false" fileName="build/logDebug.log" bufferedIO="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8" />
+            <ThresholdFilter level="DEBUG" />
+        </File>
+        <File name="ClassLoader" append="false" fileName="build/classLoader.log" bufferedIO="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8"
+                           header="\n\n============NEW SESSION=========\n" footer="-----END SESSION----------\n\n"/>
+        </File>
+        <File name="Netty" append="false" fileName="build/netty.log" bufferedIO="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8"
+                           header="\n\n============NEW SESSION=========\n" footer="-----END SESSION----------\n\n"/>
+        </File>
+        <File name="Tomcat" append="false" fileName="build/tomcat.log" bufferedIO="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8"
+                           header="\n\n============NEW SESSION=========\n" footer="-----END SESSION----------\n\n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="TRACE">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="BIGERRORS"/>
+            <AppenderRef ref="FileDebug"/>
+        </Root>
+        <Logger name="org.apache.commons.configuration2.beanutils" level="INFO" />
+        <Logger name="org.apache.commons.beanutils" level="INFO"/>
+        <Logger name="org.apache.tomcat" level="INFO" />
+        <Logger name="javax.management" level="INFO" />
+        <Logger name="org.junit" level="INFO" />
+        <Logger name="org.apache.catalina" level="INFO"/>
+        <Logger name="org.apache.jasper" level="INFO"/>
+        <Logger name="org.apache.catalina" additivity="false">
+            <AppenderRef ref="Tomcat"/>
+        </Logger>
+        <logger name="TestLogEventPatternConverter" level="TRACE" additivity="false">
+            <AppenderRef ref="Redacted"/>
+        </logger>
+        <!-- netty logging conflicts with tomcat classloader logging on shutdown -->
+        <Logger name="reactor.netty" level="TRACE" additivity="false">
+            <AppenderRef ref="Netty"/>
+        </Logger>
+        <Logger name="io.netty" level="TRACE" additivity="false">
+            <AppenderRef ref="Netty"/>
+        </Logger>
+        <Logger name="com.networknt.schema" level="INFO"/>
+    </Loggers>
+</Configuration>

@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+group = 'spring.start.here'
+version = '1.0-SNAPSHOT'
+
+String log4jVersion='2.22.1'
+String springVersion='6.2.2'
+
+repositories {
+    mavenCentral()
+}
+
+println "JAVA USED: home = ${System.getProperty("java.home")}\n"+
+        "vendor: ${System.getProperty("java.vendor")}\n"+
+        "java version: ${System.getProperty("java.version")}\n"+
+        "java name: ${System.getProperty("java.vm.name")}"
+
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation "org.springframework:spring-context:${springVersion}"
+    implementation "org.springframework:spring-aspects:${springVersion}"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.27.0'
+    testImplementation  project(':test_utilities')
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j2-impl', version: "${log4jVersion}"
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: "${log4jVersion}"
+    implementation group: 'org.apache.logging.log4j',name:'log4j-jul',version:"${log4jVersion}"
+    implementation group: 'org.apache.logging.log4j',name:'log4j-jcl',version:"${log4jVersion}"
+
+
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty "java.util.logging.manager","org.apache.logging.log4j.jul.LogManager"
+    systemProperty "log4j2.configurationFile","log4j2.xml"
+}

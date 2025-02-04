@@ -1,0 +1,16 @@
+<Configuration status="debug">
+    <Appenders>
+        <Console name="console">
+            <PatternLayout pattern="%d [%t | %c ] %m%n"/>
+        </Console>
+        <File name="file" fileName="build/log.log">
+            <PatternLayout pattern="%d [%t | %c ] %m%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="TRACE">
+            <AppenderRef ref="console" level="INFO"/>
+            <AppenderRef ref="file" level="TRACE"/>
+        </Root>
+    </Loggers>
+</Configuration>
