@@ -11,7 +11,7 @@ public interface Processor<INPUT_TYPE,OUTPUT_TYPE> {
      * @param input the input data to feed the processing stream.
      * @return the output response, or null if no response is available.
      */
-    OUTPUT_TYPE process(INPUT_TYPE input);
+    OUTPUT_TYPE process(INPUT_TYPE input,Class<OUTPUT_TYPE> expectedOutputFormat);
 
     
 
